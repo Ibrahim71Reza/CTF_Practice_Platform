@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // This tells Vercel's bundler to leave firebase-admin alone!
+  serverExternalPackages: ["firebase-admin"],
 };
 
 export default nextConfig;
