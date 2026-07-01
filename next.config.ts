@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Tell Next.js 15 App Router to leave these packages alone
+  // Tell Next.js to leave these packages alone
   serverExternalPackages: ["firebase-admin", "jose", "jwks-rsa"],
   
   // Force Webpack to completely ignore firebase-admin during the Vercel build
@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
+
+  // Silence the Next.js 16 Turbopack warning during local dev
+  turbopack: {},
 };
 
 export default nextConfig;
