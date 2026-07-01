@@ -1,0 +1,62 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.admin == true;
+    }
+
+    function hasSolved(challengeId) {
+      return isSignedIn() && exists(/databases/$(database)/documents/solves/$(request.auth.uid + "_" + challengeId));
+    }
+
+    match /challenges/{challengeId} {
+      allow read: if resource.data.status == "published" || isAdmin();
+      allow write: if false;
+    }
+
+    match /privateChallengeSecrets/{challengeId} {
+      allow read, write: if false;
+    }
+
+    match /solves/{solveId} {
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create, update, delete: if false;
+    }
+
+    match /leaderboardEntries/{uid} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /users/{uid} {
+      allow read: if isSignedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    match /submissions/{submissionId} {
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create, update, delete: if false;
+    }
+
+    match /writeups/{writeupId} {
+      allow read: if isAdmin()
+        || (isSignedIn() && resource.data.userId == request.auth.uid)
+        || (isSignedIn() && resource.data.status == "approved" && hasSolved(resource.data.challengeId));
+      allow create, update, delete: if false;
+    }
+
+    match /auditLogs/{logId} {
+      allow read, write: if false;
+    }
+    
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}

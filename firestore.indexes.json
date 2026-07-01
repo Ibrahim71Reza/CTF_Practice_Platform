@@ -1,0 +1,73 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "challenges",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "submissions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "challengeId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isCorrect",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "leaderboardEntries",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "score",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "solvedCount",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "lastSolveAt",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "writeups",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "submittedAt",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
