@@ -1,23 +1,18 @@
-import { cert, getApps, initializeApp } from "firebase-admin/app";
-import { getAuth } from "firebase-admin/auth";
-import { getFirestore } from "firebase-admin/firestore";
+// Notice: We are importing the default 'admin' object, NOT the sub-folders!
+import admin from "firebase-admin";
 
 function formatPrivateKey(key: string | undefined) {
   if (!key) return undefined;
-  
-  // 1. Remove extra quotes if Next.js accidentally included them
   let formattedKey = key;
   if (formattedKey.startsWith('"') && formattedKey.endsWith('"')) {
     formattedKey = formattedKey.slice(1, -1);
   }
-  
-  // 2. Force replace all literal \n strings with actual newlines
   return formattedKey.replace(/\\n/g, "\n");
 }
 
-if (!getApps().length) {
-  initializeApp({
-    credential: cert({
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
       projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
       clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
       privateKey: formatPrivateKey(process.env.FIREBASE_ADMIN_PRIVATE_KEY),
@@ -25,5 +20,6 @@ if (!getApps().length) {
   });
 }
 
-export const adminAuth = getAuth();
-export const adminDb = getFirestore();
+// Export the instances from the main admin object
+export const adminAuth = admin.auth();
+export const adminDb = admin.firestore();
