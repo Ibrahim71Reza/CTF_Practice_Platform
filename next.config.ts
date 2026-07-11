@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // This tells Vercel's bundler to completely ignore firebase-admin and its crypto dependencies!
-  serverExternalPackages: ["firebase-admin", "jose", "jwks-rsa"],
+  // Keep Firebase Admin on the Node.js runtime path for Vercel functions.
+  serverExternalPackages: ["firebase-admin"],
   
   // Silences the local dev warning
   turbopack: {},
